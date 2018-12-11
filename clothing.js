@@ -47,7 +47,7 @@ var pinsFormation = [];
         // scene
 
         scene = new THREE.Scene();
-        scene.background = new THREE.Color( 0xcce0ff );
+        scene.background = new THREE.Color( 0xffffff );
         scene.fog = new THREE.Fog( 0xcce0ff, 500, 10000 );
 
         // camera
