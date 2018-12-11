@@ -125,10 +125,10 @@ var pinsFormation = [];
         renderer.shadowMap.enabled = true;
 
         // controls
-        var controls = new THREE.OrbitControls( camera, renderer.domElement );
-        controls.maxPolarAngle = Math.PI * 0.5;
-        controls.minDistance = 1000;
-        controls.maxDistance = 5000;
+        // var controls = new THREE.OrbitControls( camera, renderer.domElement );
+        // controls.maxPolarAngle = Math.PI * 0.5;
+        // controls.minDistance = 1000;
+        // controls.maxDistance = 5000;
 
         window.addEventListener( 'resize', onWindowResize, false );
       }
