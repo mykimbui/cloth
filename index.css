@@ -1,0 +1,8 @@
+body {
+  position: fixed;
+  margin: 0;
+}
+
+canvas {
+  vertical-align: bottom;
+}
