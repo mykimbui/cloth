@@ -15,7 +15,7 @@ var DRAG = 1 - DAMPING;
 var MASS = 0.1;
 var restDistance = 25;
 
-var xSegs = 20;
+var xSegs = 18;
 var ySegs = 10;
 
 var clothFunction = plane( restDistance * xSegs, restDistance * ySegs );

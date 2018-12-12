@@ -1,6 +1,5 @@
 var pinsFormation = [];
       var pins = [ 6 ];
-
       pinsFormation.push( pins );
 
       pins = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
@@ -11,6 +10,9 @@ var pinsFormation = [];
 
       pins = []; // cut the rope ;)
       pinsFormation.push( pins );
+
+      // pins = [ 0, (cloth.w /2), cloth.w ];
+      // pinsFormation.push( pins );
 
       pins = [ 0, cloth.w ]; // classic 2 pins
       pinsFormation.push( pins );
@@ -85,10 +87,13 @@ var pinsFormation = [];
         var clothTexture = loader.load( 'flow.jpg' );
         clothTexture.anisotropy = 16;
 
-        var clothMaterial = new THREE.MeshLambertMaterial( {
+        var clothMaterial = new THREE.MeshPhongMaterial( {
           map: clothTexture,
           side: THREE.DoubleSide,
-          alphaTest: 0.5
+          alphaTest: 0.5,
+          specular: 0x111111,
+          shininess: 30
+
         } );
 
         // cloth geometry
@@ -123,12 +128,6 @@ var pinsFormation = [];
         renderer.gammaOutput = true;
 
         renderer.shadowMap.enabled = true;
-
-        // controls
-        // var controls = new THREE.OrbitControls( camera, renderer.domElement );
-        // controls.maxPolarAngle = Math.PI * 0.5;
-        // controls.minDistance = 1000;
-        // controls.maxDistance = 5000;
 
         window.addEventListener( 'resize', onWindowResize, false );
       }
@@ -178,8 +177,6 @@ var pinsFormation = [];
         clothGeometry.attributes.position.needsUpdate = true;
 
         clothGeometry.computeVertexNormals();
-
-        // sphere.position.copy( ballPosition );
 
         renderer.render( scene, camera );
 
