@@ -15,8 +15,8 @@ var DRAG = 1 - DAMPING;
 var MASS = 0.1;
 var restDistance = 25;
 
-var xSegs = 18;
-var ySegs = 10;
+var xSegs = 10;
+var ySegs = 6;
 
 var clothFunction = plane( restDistance * xSegs, restDistance * ySegs );
 
@@ -33,13 +33,9 @@ var TIMESTEP_SQ = TIMESTEP * TIMESTEP;
 
 var pins = [];
 
-
 var wind = true;
 var windStrength = 2;
 var windForce = new THREE.Vector3( 0, 0, 0 );
-
-// var ballPosition = new THREE.Vector3( 0, - 45, 0 );
-// var ballSize = 60; //40
 
 var tmpForce = new THREE.Vector3();
 
@@ -127,8 +123,8 @@ function satisfyConstraints( p1, p2, distance ) {
 
 function Cloth( w, h ) {
 
-  w = w || 20;
-  h = h || 10;
+  w = w || 10;
+  h = h || 6;
   this.w = w;
   this.h = h;
 

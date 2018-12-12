@@ -1,18 +1,15 @@
 var pinsFormation = [];
-      var pins = [ 6 ];
-      pinsFormation.push( pins );
+var pins = [ 6 ];
+pinsFormation.push( pins );
 
-      pins = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
-      pinsFormation.push( pins );
+pins = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
+pinsFormation.push( pins );
 
-      pins = [ 0 ];
-      pinsFormation.push( pins );
+pins = [ 0 ];
+pinsFormation.push( pins );
 
       pins = []; // cut the rope ;)
       pinsFormation.push( pins );
-
-      // pins = [ 0, (cloth.w /2), cloth.w ];
-      // pinsFormation.push( pins );
 
       pins = [ 0, cloth.w ]; // classic 2 pins
       pinsFormation.push( pins );
@@ -55,7 +52,7 @@ var pinsFormation = [];
         // camera
 
         camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
-        camera.position.set(0, 0, 400 );
+        camera.position.set(0, 0, 250 );
 
         // lights
 
@@ -84,16 +81,53 @@ var pinsFormation = [];
         // cloth material
 
         var loader = new THREE.TextureLoader();
-        var clothTexture = loader.load( 'flow.jpg' );
-        clothTexture.anisotropy = 16;
+
+        //create image
+        var canvas = document.createElement('canvas');
+        var context = canvas.getContext('2d');
+        var text = "COMING";
+        var text2 = "SOON";
+        var countDownDate = new Date("Jan 5, 2019 15:37:25").getTime();
+
+        // var timer = setInterval(x, 1000);
+          var now = new Date().getTime();
+          var distance = countDownDate - now;
+          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          var text3 = "(" + days + ":" + hours + ":" + minutes + ":" + seconds + ")";
+          // if (distance < 0) {
+          //   clearInterval(x);
+          //   text3 = "EXPIRED";
+          // }
+
+        canvas.width = 1024;
+        canvas.height = 512;
+        context.fillStyle = "black";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        // context.rotate(Math.PI);
+        context.translate(0, canvas.height);
+        context.scale(1, -1);
+        context.drawImage(canvas, 0, 0);
+        context.font = '170px Arial';
+        context.fillStyle = 'white';
+        context.fillText(text, 10, 150);
+        context.fillText(text2, 20, 290);
+        context.fillText(text3, 15, 440);
+
+        var texture = new THREE.Texture(canvas)
+        texture.needsUpdate = true;
+
+        // var clothTexture = loader.load( 'flow.jpg' );
+        // clothTexture.anisotropy = 16;
 
         var clothMaterial = new THREE.MeshPhongMaterial( {
-          map: clothTexture,
+          map: texture,
           side: THREE.DoubleSide,
           alphaTest: 0.5,
           specular: 0x111111,
           shininess: 30
-
         } );
 
         // cloth geometry
@@ -110,7 +144,7 @@ var pinsFormation = [];
         object.customDepthMaterial = new THREE.MeshDepthMaterial( {
 
           depthPacking: THREE.RGBADepthPacking,
-          map: clothTexture,
+          map: texture,
           alphaTest: 0.5
 
         } );
