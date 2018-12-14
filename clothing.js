@@ -1,123 +1,128 @@
 var pinsFormation = [];
-var pins = [ 6 ];
-pinsFormation.push( pins );
+// var pins = [ 6 ];
+// pinsFormation.push( pins );
 
-pins = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
-pinsFormation.push( pins );
+// pins = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
+// pinsFormation.push( pins );
 
-pins = [ 0 ];
-pinsFormation.push( pins );
+// pins = [ 0 ];
+// pinsFormation.push( pins );
 
-      pins = []; // cut the rope ;)
-      pinsFormation.push( pins );
+// pins = []; // cut the rope ;)
+// pinsFormation.push( pins );
 
-      pins = [ 0, cloth.w ]; // classic 2 pins
-      pinsFormation.push( pins );
+// pins = [ 0, cloth.w ]; // classic 2 pins
+// pinsFormation.push( pins );
 
-      pins = pinsFormation[ 1 ];
+pins = pinsFormation[ 1 ];
+
+pins = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+setTimeout(() => {
+  pins = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, cloth.w];
+}, 2500)
 
 
-      function togglePins() {
 
-        pins = pinsFormation[ ~~ ( Math.random() * pinsFormation.length ) ];
+function togglePins() {
+  pins = pinsFormation[ ~~ ( Math.random() * pinsFormation.length ) ];
+}
 
-      }
+if ( WEBGL.isWebGLAvailable() === false ) {
+  document.body.appendChild( WEBGL.getWebGLErrorMessage() );
 
-      if ( WEBGL.isWebGLAvailable() === false ) {
+}
 
-        document.body.appendChild( WEBGL.getWebGLErrorMessage() );
+var container;
+var camera, scene, renderer;
 
-      }
+var clothGeometry;
+var object;
 
-      var container;
-      var camera, scene, renderer;
+init();
+animate();
 
-      var clothGeometry;
-      var object;
+function init() {
 
-      init();
-      animate();
+  container = document.createElement('div');
+  document.body.appendChild( container );
 
-      function init() {
+  // scene
 
-        container = document.createElement( 'div' );
-        document.body.appendChild( container );
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color( 0xffffff );
+  scene.fog = new THREE.Fog( 0xcce0ff, 500, 10000 );
 
-        // scene
+  // camera
 
-        scene = new THREE.Scene();
-        scene.background = new THREE.Color( 0xffffff );
-        scene.fog = new THREE.Fog( 0xcce0ff, 500, 10000 );
+  camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
+  camera.position.set(0, 0, 250 );
 
-        // camera
+  // lights
 
-        camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
-        camera.position.set(0, 0, 250 );
+  scene.add( new THREE.AmbientLight( 0x666666 ) );
 
-        // lights
+  var light = new THREE.DirectionalLight( 0xdfebff, 1 );
+  light.position.set( 50, 200, 100 );
+  light.position.multiplyScalar( 1.3 );
 
-        scene.add( new THREE.AmbientLight( 0x666666 ) );
+  light.castShadow = true;
 
-        var light = new THREE.DirectionalLight( 0xdfebff, 1 );
-        light.position.set( 50, 200, 100 );
-        light.position.multiplyScalar( 1.3 );
+  light.shadow.mapSize.width = 1024;
+  light.shadow.mapSize.height = 1024;
 
-        light.castShadow = true;
+  var d = 300;
 
-        light.shadow.mapSize.width = 1024;
-        light.shadow.mapSize.height = 1024;
+  light.shadow.camera.left = - d;
+  light.shadow.camera.right = d;
+  light.shadow.camera.top = d;
+  light.shadow.camera.bottom = - d;
 
-        var d = 300;
+  light.shadow.camera.far = 1000;
 
-        light.shadow.camera.left = - d;
-        light.shadow.camera.right = d;
-        light.shadow.camera.top = d;
-        light.shadow.camera.bottom = - d;
+  scene.add( light );
 
-        light.shadow.camera.far = 1000;
+  // cloth material
 
-        scene.add( light );
+  var loader = new THREE.TextureLoader();
 
-        // cloth material
+  //create image
+  var canvas = document.createElement('canvas');
+  var context = canvas.getContext('2d');
+  var text = "COMING";
+  var text2 = "SOON";
+  var countDownDate = new Date("Jan 5, 2019 15:37:25").getTime();
 
-        var loader = new THREE.TextureLoader();
+  // var timer = setInterval(x, 1000);
+  var now = new Date().getTime();
+  var distance = countDownDate - now;
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  var text3 = "(" + days + ":" + hours + ":" + minutes + ":" + seconds + ")";
+// if (distance < 0) {
+//   clearInterval(x);
+//   text3 = "EXPIRED";
+// }
 
-        //create image
-        var canvas = document.createElement('canvas');
-        var context = canvas.getContext('2d');
-        var text = "COMING";
-        var text2 = "SOON";
-        var countDownDate = new Date("Jan 5, 2019 15:37:25").getTime();
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+context.fillStyle = "black";
+context.fillRect(0, 0, canvas.width, canvas.height);
+  // context.rotate(Math.PI);
 
-        // var timer = setInterval(x, 1000);
-          var now = new Date().getTime();
-          var distance = countDownDate - now;
-          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-          var text3 = "(" + days + ":" + hours + ":" + minutes + ":" + seconds + ")";
-          // if (distance < 0) {
-          //   clearInterval(x);
-          //   text3 = "EXPIRED";
-          // }
+  context.translate(0, canvas.height);
+  context.scale(1, -1);
+  context.drawImage(canvas, 0, 0);
+  context.font = '275px Arial';
+  context.fillStyle = 'white';
+  context.fillText(text, 10, 240);
+  context.fillText(text2, 20, 460);
+  context.fillText(text3, 15, 680);
 
-        canvas.width = 1024;
-        canvas.height = 512;
-        context.fillStyle = "black";
-        context.fillRect(0, 0, canvas.width, canvas.height);
-        // context.rotate(Math.PI);
-        context.translate(0, canvas.height);
-        context.scale(1, -1);
-        context.drawImage(canvas, 0, 0);
-        context.font = '170px Arial';
-        context.fillStyle = 'white';
-        context.fillText(text, 10, 150);
-        context.fillText(text2, 20, 290);
-        context.fillText(text3, 15, 440);
-
-        var texture = new THREE.Texture(canvas)
-        texture.needsUpdate = true;
+  var texture = new THREE.Texture(canvas)
+  texture.needsUpdate = true;
 
         // var clothTexture = loader.load( 'flow.jpg' );
         // clothTexture.anisotropy = 16;
@@ -130,89 +135,79 @@ pinsFormation.push( pins );
           shininess: 30
         } );
 
-        // cloth geometry
+  // cloth geometry
+  clothGeometry = new THREE.ParametricBufferGeometry( clothFunction, cloth.w, cloth.h );
 
-        clothGeometry = new THREE.ParametricBufferGeometry( clothFunction, cloth.w, cloth.h );
+  // cloth mesh
+  object = new THREE.Mesh( clothGeometry, clothMaterial );
+  object.position.set( 0, 0, 0 );
+  object.castShadow = true;
+  scene.add( object );
 
-        // cloth mesh
+  object.customDepthMaterial = new THREE.MeshDepthMaterial( {
+    depthPacking: THREE.RGBADepthPacking,
+    map: texture,
+    alphaTest: 0.5
+  } );
 
-        object = new THREE.Mesh( clothGeometry, clothMaterial );
-        object.position.set( 0, 0, 0 );
-        object.castShadow = true;
-        scene.add( object );
+  // renderer
+  renderer = new THREE.WebGLRenderer( { antialias: true } );
+  renderer.setPixelRatio( window.devicePixelRatio );
+  renderer.setSize( window.innerWidth, window.innerHeight );
 
-        object.customDepthMaterial = new THREE.MeshDepthMaterial( {
+  container.appendChild( renderer.domElement );
 
-          depthPacking: THREE.RGBADepthPacking,
-          map: texture,
-          alphaTest: 0.5
+  renderer.gammaInput = true;
+  renderer.gammaOutput = true;
 
-        } );
+  renderer.shadowMap.enabled = true;
 
+  window.addEventListener( 'resize', onWindowResize, false );
+}
 
-        // renderer
+function onWindowResize() {
 
-        renderer = new THREE.WebGLRenderer( { antialias: true } );
-        renderer.setPixelRatio( window.devicePixelRatio );
-        renderer.setSize( window.innerWidth, window.innerHeight );
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
 
-        container.appendChild( renderer.domElement );
+  renderer.setSize( window.innerWidth, window.innerHeight );
 
-        renderer.gammaInput = true;
-        renderer.gammaOutput = true;
+}
 
-        renderer.shadowMap.enabled = true;
+function animate() {
 
-        window.addEventListener( 'resize', onWindowResize, false );
-      }
+  requestAnimationFrame( animate );
 
-      //
+  var time = Date.now();
 
-      function onWindowResize() {
+  var windStrength = Math.cos( time / 7000 ) * 20 + 40;
 
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
+  windForce.set( Math.sin( time / 2000 ), Math.cos( time / 3000 ), Math.sin( time / 1000 ) )
+  windForce.normalize()
+  windForce.multiplyScalar( windStrength );
 
-        renderer.setSize( window.innerWidth, window.innerHeight );
+  simulate( time );
+  render();
 
-      }
+}
 
-      //
+function render() {
 
-      function animate() {
+  var p = cloth.particles;
 
-        requestAnimationFrame( animate );
+  for ( var i = 0, il = p.length; i < il; i ++ ) {
 
-        var time = Date.now();
+    var v = p[ i ].position;
 
-        var windStrength = Math.cos( time / 7000 ) * 20 + 40;
+    clothGeometry.attributes.position.setXYZ( i, v.x, v.y, v.z );
 
-        windForce.set( Math.sin( time / 2000 ), Math.cos( time / 3000 ), Math.sin( time / 1000 ) )
-        windForce.normalize()
-        windForce.multiplyScalar( windStrength );
+  }
 
-        simulate( time );
-        render();
+  clothGeometry.attributes.position.needsUpdate = true;
 
-      }
+  clothGeometry.computeVertexNormals();
 
-      function render() {
+  renderer.render( scene, camera );
 
-        var p = cloth.particles;
-
-        for ( var i = 0, il = p.length; i < il; i ++ ) {
-
-          var v = p[ i ].position;
-
-          clothGeometry.attributes.position.setXYZ( i, v.x, v.y, v.z );
-
-        }
-
-        clothGeometry.attributes.position.needsUpdate = true;
-
-        clothGeometry.computeVertexNormals();
-
-        renderer.render( scene, camera );
-
-      }
+}
 
