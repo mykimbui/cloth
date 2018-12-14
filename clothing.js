@@ -91,7 +91,7 @@ function init() {
   var context = canvas.getContext('2d');
   var text = "COMING";
   var text2 = "SOON";
-  var countDownDate = new Date("Jan 5, 2019 15:37:25").getTime();
+  var countDownDate = new Date("Jan 1, 2019 00:00:00").getTime();
 
   // var timer = setInterval(x, 1000);
   var now = new Date().getTime();
