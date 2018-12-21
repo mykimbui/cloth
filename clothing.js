@@ -80,7 +80,7 @@ function init() {
     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    var text3 = "(" + days + ":" + hours + ":" + minutes + ":" + seconds + ")";
+    var text3 = days + ":" + hours + ":" + minutes + ":" + seconds;
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -194,8 +194,8 @@ function animate() {
 
   var time = Date.now();
   var windStrength = Math.cos( time / 7000 ) * 20 + 40;
-  windForce.set( Math.sin( time / 2000 ), Math.cos( time / 3000 ), Math.sin( time / 1000 ) )
-  // windForce.set( pageX, pageY, isDown )
+  // windForce.set( Math.sin( time / 2000 ), Math.cos( time / 3000 ), Math.sin( time / 1000 ) )
+  windForce.set( pageX, pageY, isDown )
   windForce.normalize()
   windForce.multiplyScalar( windStrength );
   simulate( time );

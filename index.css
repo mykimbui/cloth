@@ -10,7 +10,7 @@ body {
 .background {
   margin-top: -150px;
   position: fixed;
-  z-index: 0;
+  z-index: -1;
   font-size: 250px;
   font-family: "Arial";
   line-height: 0px;
