@@ -115,6 +115,15 @@ function init() {
     shininess: 30
   });
 
+  var shader = THREE.FresnelShader;
+  var uniforms = THREE.UniformsUtils.clone( shader.uniforms );
+  var material = new THREE.ShaderMaterial( {
+  uniforms: uniforms,
+  vertexShader: shader.vertexShader,
+  fragmentShader: shader.fragmentShader
+} );
+
+
   // cloth geometry
 
   clothGeometry = new THREE.ParametricBufferGeometry( clothFunction, cloth.w, cloth.h );
