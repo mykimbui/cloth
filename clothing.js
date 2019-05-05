@@ -73,14 +73,14 @@ function init() {
   var text2 = "SOON";
 
   function runTexture (material, material2) {
-    var countDownDate = new Date("Jan 1, 2019 00:00:00").getTime();
+    var countDownDate = new Date("May 19, 2019 00:00:00").getTime();
     var now = new Date().getTime();
     var distance = countDownDate - now;
     var days = Math.floor(distance / (1000 * 60 * 60 * 24));
     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    var text3 = days + ":" + hours + ":" + minutes + ":" + seconds;
+    var text3 = "[" + days + ":" + hours + ":" + minutes + ":" + seconds + "]";
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
